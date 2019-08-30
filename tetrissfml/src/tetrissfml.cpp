@@ -34,7 +34,7 @@ int Rotate(int px, int py, int r) {
 }
 
 void DrawRectangle(sf::RenderWindow& window, sf::RectangleShape& rectangle, float x, float y, sf::Color color, float nRectSize) {
-	
+
 	rectangle.setSize(sf::Vector2f(nRectSize, nRectSize));
 	rectangle.setPosition(x, y);
 	rectangle.setFillColor(color);
@@ -47,16 +47,16 @@ void DrawScene(sf::RenderWindow& window, wchar_t screen[], float nRectSize, sf::
 		for (int py = 0; py < nScreenHeight; py++)
 			switch (screen[py * nScreenWidth + px])
 			{
-			case L'#': DrawRectangle(window, rectangle, px * nRectSize-1, py * nRectSize-1, sf::Color(130, 117, 116), nRectSize); break;
-			case L'A': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Green, nRectSize-1); break;
-			case L'B': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Blue, nRectSize-1); break;
-			case L'C': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Yellow, nRectSize-1); break;
-			case L'D': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Magenta, nRectSize-1); break;
-			case L'E': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Cyan, nRectSize-1); break;
-			case L'F': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Yellow, nRectSize-1); break;
-			case L'G': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color(100, 200, 100), nRectSize-1); break;
-			case L'=': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Black, nRectSize-1); break;
-			case L' ': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::White, nRectSize-1); break;
+			case L'#': DrawRectangle(window, rectangle, px * nRectSize - 1, py * nRectSize - 1, sf::Color(130, 117, 116), nRectSize); break;
+			case L'A': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Green, nRectSize - 1); break;
+			case L'B': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Blue, nRectSize - 1); break;
+			case L'C': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Yellow, nRectSize - 1); break;
+			case L'D': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Magenta, nRectSize - 1); break;
+			case L'E': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Cyan, nRectSize - 1); break;
+			case L'F': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Yellow, nRectSize - 1); break;
+			case L'G': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color(100, 200, 100), nRectSize - 1); break;
+			case L'=': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Black, nRectSize - 1); break;
+			case L' ': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::White, nRectSize - 1); break;
 			}
 
 }
@@ -146,7 +146,7 @@ int main()
 	text3.setCharacterSize(40);
 	text3.setFillColor(sf::Color(0, 0, 0));
 	text3.setPosition(100, 200);
-	
+
 
 
 	//text.setStyle(sf::Text::Bold);
@@ -154,7 +154,7 @@ int main()
 	int nScore = 0;
 	int nLevel = 0;
 	int nLinesTemp = 0;
-	
+
 
 
 
@@ -170,11 +170,11 @@ int main()
 	wchar_t* screen = new wchar_t[nScreenWidth * nScreenHeight];
 	for (int i = 0; i < nScreenWidth * nScreenHeight; i++) screen[i] = L' ';
 
-	
+
 
 	sf::RenderWindow window(sf::VideoMode(nWindowWidth, nWindowHeight), "Tetris", sf::Style::Titlebar | sf::Style::Close);
-	sf::RectangleShape rectangle(sf::Vector2f(nRectSize-1, nRectSize-1));
-	
+	sf::RectangleShape rectangle(sf::Vector2f(nRectSize - 1, nRectSize - 1));
+
 
 
 	int nCurrentPiece = 1;
@@ -183,7 +183,7 @@ int main()
 	int nCurrentY = 0;
 	//Here
 
-	
+
 
 
 	// random
@@ -191,7 +191,7 @@ int main()
 	srand((unsigned)time(0));
 	int i;
 	i = (rand() % 6);
-	
+
 
 	int nNextPiece = i;
 
@@ -202,6 +202,7 @@ int main()
 	bool bXRightHold = false;
 	bool bAnotherX = false;
 
+	bool bCheat[4];
 
 	int nSpeed = 25;
 	int nSpeedCounter = 0;
@@ -239,7 +240,7 @@ int main()
 				}
 			}
 		}
-		
+
 		while (bIsPause) {
 			while (window.pollEvent(event)) {
 				if (event.type == sf::Event::KeyPressed)
@@ -310,11 +311,23 @@ int main()
 
 
 		// INPUT
+		for (int k = 0; k < 4; k++) {
+			bCheat[k] = (0x8000 & GetAsyncKeyState((unsigned char)("\x20\A\B\C"[k]))) != 0;
+		}
+
 		for (int k = 0; k < 4; k++)
 			bKey[k] = (0x8000 & GetAsyncKeyState((unsigned char)("\x27\x25\x28Z"[k]))) != 0;
 
 
 		// GAME LOGIC
+		if (bCheat[0] && bCheat[1] & bCheat[2] & bCheat[3]) {
+			bIsGameOver = 1;
+			nScore = 99999;
+			nLines = 99999;
+			nLevel = 99999;
+			text3.setString("Lines: " + to_string(nLines) + "\nScore: " + to_string(nScore) + "\nLevel: " + to_string(nLevel) + "\nPress F to continue");
+		}
+
 		if (bKey[1])
 		{
 			nCurrentX -= (!bXLeftHold && DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX - 1, nCurrentY));
@@ -340,12 +353,12 @@ int main()
 		{
 			nCurrentRotation += (!bRotateHold && DoesPieceFit(nCurrentPiece, nCurrentRotation + 1, nCurrentX, nCurrentY));
 			bRotateHold = true;
-			
+
 		}
 		else bRotateHold = false;
 
 		// Forse down
-		
+
 
 
 		if (bForseDown || (bKey[2] && !bYHold))
@@ -357,7 +370,7 @@ int main()
 				}
 				else bYHold = false;
 			}
-			
+
 			else
 			{
 				// Lock the current piece in the field
@@ -381,7 +394,7 @@ int main()
 						}
 					}
 				// Choose next piece
-				nCurrentX = (nFieldWidth / 2) - 2; 
+				nCurrentX = (nFieldWidth / 2) - 2;
 				nCurrentY = 0;
 				nCurrentRotation = 0;
 				nCurrentPiece = nNextPiece;
@@ -389,10 +402,10 @@ int main()
 				nNextPiece = i;
 
 				// Draw next piece
-			
+
 				for (int px = 0; px < 4; px++)
 					for (int py = 0; py < 4; py++)
-							screen[(py + 2) * nScreenWidth + (px + 13)] = ' ';
+						screen[(py + 2) * nScreenWidth + (px + 13)] = ' ';
 
 				// If piece does not fit
 				bIsGameOver = !DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX, nCurrentY);
@@ -400,13 +413,13 @@ int main()
 					text3.setString("Lines: " + to_string(nLines) + "\nScore: " + to_string(nScore) + "\nLevel: " + to_string(nLevel) + "\nPress F to continue");
 			}
 			nSpeedCounter = 0;
-			
+
 		}
 
 
 
 		// RENDER OUTPUT
-		
+
 
 
 
@@ -446,7 +459,7 @@ int main()
 						pField[py * nFieldWidth + px] = pField[(py - 1) * nFieldWidth + px];
 					pField[px] = 0;
 				}
-				nLines++;	
+				nLines++;
 				nLinesTemp++;
 			}
 			switch (nLinesTemp) {
@@ -468,8 +481,8 @@ int main()
 
 		}
 
-		
-		
+
+
 		// Display Frame
 		window.clear();
 		DrawScene(window, screen, nRectSize, rectangle);
