@@ -188,7 +188,7 @@ int main()
 
 	srand((unsigned)time(0));
 	int i;
-	i = (rand() % 6);
+	i = (rand() % 7);
 
 
 	int nNextPiece = i;
@@ -223,7 +223,7 @@ int main()
 		// Random
 
 		srand((unsigned)time(0));
-		i = (rand() % 6);
+		i = (rand() % 7);
 
 		text.setString("Lines: " + to_string(nLines) + "\nScore: " + to_string(nScore) + "\nLevel: " + to_string(nLevel));
 		window.draw(text);
