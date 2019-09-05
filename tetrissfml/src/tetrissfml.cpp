@@ -20,7 +20,7 @@ float nRectSize = 25.0f;
 
 unsigned char* pField = nullptr;
 
-int nScreenWidth = 30;
+int nScreenWidth = 25;
 int nScreenHeight = 30;
 
 int Rotate(int px, int py, int r) {
@@ -47,18 +47,17 @@ void DrawScene(sf::RenderWindow& window, wchar_t screen[], float nRectSize, sf::
 		for (int py = 0; py < nScreenHeight; py++)
 			switch (screen[py * nScreenWidth + px])
 			{
-			case L'#': DrawRectangle(window, rectangle, px * nRectSize - 1, py * nRectSize - 1, sf::Color(130, 117, 116), nRectSize); break;
-			case L'A': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Green, nRectSize - 1); break;
-			case L'B': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Blue, nRectSize - 1); break;
-			case L'C': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Yellow, nRectSize - 1); break;
-			case L'D': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Magenta, nRectSize - 1); break;
-			case L'E': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Cyan, nRectSize - 1); break;
-			case L'F': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Yellow, nRectSize - 1); break;
-			case L'G': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color(100, 200, 100), nRectSize - 1); break;
-			case L'=': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::Black, nRectSize - 1); break;
+			case L'#': DrawRectangle(window, rectangle, px * nRectSize - 1, py * nRectSize - 1, sf::Color(40, 80, 156), nRectSize + 1); break;
+			case L'A': DrawRectangle(window, rectangle, (px * nRectSize), (py * nRectSize), sf::Color(94, 255, 214), nRectSize - 1); break;
+			case L'B': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color(38, 123, 235), nRectSize - 1); break;
+			case L'C': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color(245, 185, 37), nRectSize - 1); break;
+			case L'D': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color(95, 23, 212), nRectSize - 1); break;
+			case L'E': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color(246, 27, 161), nRectSize - 1); break;
+			case L'F': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color(222, 51, 9), nRectSize - 1); break;
+			case L'G': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color(245, 235, 88), nRectSize - 1); break;
+			case L'=': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color(39, 0, 101), nRectSize - 1); break;
 			case L' ': DrawRectangle(window, rectangle, px * nRectSize, py * nRectSize, sf::Color::White, nRectSize - 1); break;
 			}
-
 }
 
 
@@ -75,7 +74,6 @@ bool DoesPieceFit(int nTetromino, int nRotation, int nPosX, int nPosY) {
 				}
 			}
 		}
-
 	return true;
 }
 
@@ -123,28 +121,28 @@ int main()
 	font.loadFromFile("LexendDeca-Regular.ttf");
 	text.setFont(font);
 	text.setCharacterSize(30);
-	text.setFillColor(sf::Color(0, 0, 0));
+	text.setFillColor(sf::Color(40, 80, 160));
 	text.setPosition(350, 155);
 
 
 	sf::Text text1;
 	text1.setFont(font);
 	text1.setCharacterSize(100);
-	text1.setFillColor(sf::Color(0, 0, 0));
+	text1.setFillColor(sf::Color(40, 80, 160));
 	text1.setPosition(130, 200);
 	text1.setString("Paused");
 
 	sf::Text text2;
 	text2.setFont(font);
 	text2.setCharacterSize(70);
-	text2.setFillColor(sf::Color(0, 0, 0));
+	text2.setFillColor(sf::Color(40, 80, 160));
 	text2.setPosition(100, 100);
 	text2.setString("Game over");
 
 	sf::Text text3;
 	text3.setFont(font);
 	text3.setCharacterSize(40);
-	text3.setFillColor(sf::Color(0, 0, 0));
+	text3.setFillColor(sf::Color(40, 80, 160));
 	text3.setPosition(100, 200);
 
 
@@ -160,7 +158,7 @@ int main()
 
 
 
-
+	
 	pField = new unsigned char[nFieldWidth * nFieldHeight];
 	for (int x = 0; x < nFieldWidth; x++) {
 		for (int y = 0; y < nFieldHeight; y++) {
@@ -175,7 +173,7 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(nWindowWidth, nWindowHeight), "Tetris", sf::Style::Titlebar | sf::Style::Close);
 	sf::RectangleShape rectangle(sf::Vector2f(nRectSize - 1, nRectSize - 1));
 
-
+	
 
 	int nCurrentPiece = 1;
 	int nCurrentRotation = 0;
@@ -200,9 +198,7 @@ int main()
 	bool bYHold = false;
 	bool bXLeftHold = false;
 	bool bXRightHold = false;
-	bool bAnotherX = false;
 
-	bool bCheat[4];
 
 	int nSpeed = 25;
 	int nSpeedCounter = 0;
@@ -214,9 +210,16 @@ int main()
 
 	string sLines;
 
+	int nMoveSpeed = 9;
+	int nMoveCounterR = 0;
+	int nMoveCounterL = 0;
+	int nMoveCounterD = 0;
+
+	bool bIsRestart = 0;
+
 	while (window.isOpen())
 	{
-
+		
 		// Random
 
 		srand((unsigned)time(0));
@@ -238,6 +241,11 @@ int main()
 				{
 					bIsPause = !bIsPause;
 				}
+				if (event.key.code == sf::Keyboard::R)
+				{
+					bIsGameOver = 1;
+					bIsRestart = 1;
+				}
 			}
 		}
 
@@ -248,7 +256,7 @@ int main()
 					if (event.key.code == sf::Keyboard::Escape)
 					{
 						bIsPause = !bIsPause;
-					}
+					}				
 				}
 				if (event.type == sf::Event::Closed)
 					window.close();
@@ -262,10 +270,10 @@ int main()
 		}
 
 		while (bIsGameOver) {
-			while (window.pollEvent(event)) {
-				if (event.type == sf::Event::KeyPressed)
+			while (window.pollEvent(event) || bIsRestart) {
+				if (event.type == sf::Event::KeyPressed || bIsRestart)
 				{
-					if (event.key.code == sf::Keyboard::F)
+					if (event.key.code == sf::Keyboard::F || bIsRestart)
 					{
 						nCurrentPiece = 1;
 						nCurrentRotation = 0;
@@ -277,7 +285,7 @@ int main()
 						nSpeed = 25;
 						nLevel = 0;
 
-
+						
 						// here
 						for (int x = 0; x < nFieldWidth; x++) {
 							for (int y = 0; y < nFieldHeight; y++) {
@@ -286,22 +294,24 @@ int main()
 						}
 						for (int i = 0; i < nScreenWidth * nScreenHeight; i++) screen[i] = L' ';
 
-						bIsGameOver = !bIsGameOver;
-
+						bIsGameOver = 0;
+						if (bIsRestart) break;
 					}
 				}
 				if (event.type == sf::Event::Closed)
 					window.close();
 			}
-			window.clear(sf::Color::White);
+			
+			if (!bIsRestart) {
+				window.clear(sf::Color::White);
 
-			window.draw(text2);
-			window.draw(text3);
+				window.draw(text2);
+				window.draw(text3);
 
-			window.display();
-
+				window.display();
+			}
+			bIsRestart = 0;
 		}
-
 
 
 		// GAME TIMING
@@ -310,44 +320,55 @@ int main()
 		bForseDown = (nSpeedCounter == nSpeed);
 
 
-		// INPUT
-		for (int k = 0; k < 4; k++) {
-			bCheat[k] = (0x8000 & GetAsyncKeyState((unsigned char)("\x20\A\B\C"[k]))) != 0;
-		}
+
 
 		for (int k = 0; k < 4; k++)
 			bKey[k] = (0x8000 & GetAsyncKeyState((unsigned char)("\x27\x25\x28Z"[k]))) != 0;
 
 
-		// GAME LOGIC
-		if (bCheat[0] && bCheat[1] & bCheat[2] & bCheat[3]) {
-			bIsGameOver = 1;
-			nScore = 99999;
-			nLines = 99999;
-			nLevel = 99999;
-			text3.setString("Lines: " + to_string(nLines) + "\nScore: " + to_string(nScore) + "\nLevel: " + to_string(nLevel) + "\nPress F to continue");
-		}
+
+
+
+		//bool bYHold = false;
+		//bool bXLeftHold = false;
+		//bool bXRightHold = false;
+
+
+
+
+		
+
 
 		if (bKey[1])
 		{
-			nCurrentX -= (!bXLeftHold && DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX - 1, nCurrentY));
-			bXLeftHold = true;
+			if ((nMoveCounterL == nMoveSpeed) || !bXLeftHold)
+			{
+				nCurrentX -= (DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX - 1, nCurrentY));
+				nMoveCounterL = 0;
+				bXLeftHold = true;
+			}
+			else
+			{
+				nMoveCounterL++;
+			}
 		}
 		else bXLeftHold = false;
 
 
 		if (bKey[0])
 		{
-			nCurrentX += (!bXRightHold && DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX + 1, nCurrentY));
-			bXRightHold = true;
+			if ((nMoveCounterR == nMoveSpeed) || !bXRightHold)
+			{
+				nCurrentX += (DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX + 1, nCurrentY));
+				nMoveCounterR = 0;
+				bXRightHold = true;
+			}
+			else
+			{
+				nMoveCounterR++;
+			}
 		}
 		else bXRightHold = false;
-
-
-		if (!bKey[2]) {
-			bYHold = false;
-		}
-
 
 		if (bKey[3])
 		{
@@ -360,19 +381,34 @@ int main()
 		// Forse down
 
 
+		if (!bKey[2]) {
+			bYHold = false;
+		}
 
-		if (bForseDown || (bKey[2] && !bYHold))
+
+		if (bForseDown || (bKey[2]))
 		{
-			if (DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX, nCurrentY + 1)) {
-				nCurrentY++;
-				if (bKey[2]) {
-					bYHold = true;
+			nSpeedCounter = 0;
+			if (DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX, nCurrentY + 1))
+			{
+				if (bKey[2])
+				{
+					if ((nMoveCounterD == 10 - nLevel) || !bYHold) 
+					{
+						nCurrentY++;
+						nMoveCounterD = 0;
+						bYHold = true;
+					}
+					else nMoveCounterD++;
 				}
-				else bYHold = false;
-			}
-
+				else {
+					nCurrentY++; 
+					bYHold = false;
+				}
+			}	
 			else
 			{
+				
 				// Lock the current piece in the field
 				for (int px = 0; px < 4; px++)
 					for (int py = 0; py < 4; py++)
@@ -389,7 +425,7 @@ int main()
 						if (bLine)
 						{
 							for (int px = 1; px < nFieldWidth - 1; px++)
-								pField[(nCurrentY + py) * nFieldWidth + px] = L'=';
+								pField[(nCurrentY + py) * nFieldWidth + px] = 8;
 							vLines.push_back(nCurrentY + py);
 						}
 					}
@@ -411,10 +447,11 @@ int main()
 				bIsGameOver = !DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX, nCurrentY);
 				if (bIsGameOver)
 					text3.setString("Lines: " + to_string(nLines) + "\nScore: " + to_string(nScore) + "\nLevel: " + to_string(nLevel) + "\nPress F to continue");
-			}
-			nSpeedCounter = 0;
 
+			}
+			
 		}
+		 
 
 
 
@@ -446,7 +483,7 @@ int main()
 		{
 			//here
 
-			window.clear();
+			window.clear(sf::Color(255, 255, 255));
 			DrawScene(window, screen, nRectSize, rectangle);
 			window.draw(text);
 			window.display();
@@ -474,6 +511,10 @@ int main()
 			case 2: nLevel = 3;	nSpeed = 15; break;
 			case 3: nLevel = 4; nSpeed = 10; break;
 			case 4: nLevel = 5; nSpeed = 5; break;
+			case 5: nLevel = 6; bIsGameOver = 1; text2.setString("You won!"); 
+				text3.setString("Lines: " + to_string(nLines) + "\nScore: " + to_string(nScore) + "\nLevel: " + to_string(nLevel) + "\nPress F to continue");
+				break;
+
 			}
 			nLinesTemp = 0;
 			vLines.clear();
@@ -484,7 +525,7 @@ int main()
 
 
 		// Display Frame
-		window.clear();
+		window.clear(sf::Color(255, 255, 255));
 		DrawScene(window, screen, nRectSize, rectangle);
 		window.draw(text);
 

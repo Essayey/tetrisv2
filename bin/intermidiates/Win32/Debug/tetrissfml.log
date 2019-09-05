@@ -1,3 +1,7 @@
 ﻿X:\Visual Studio\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(437,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
 X:\Visual Studio\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(438,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  tetrissfml.cpp
+X:\dev\tetrissfml\tetrissfml\src\tetrissfml.cpp(320,59): warning C4129:  'A': unrecognized character escape sequence
+X:\dev\tetrissfml\tetrissfml\src\tetrissfml.cpp(320,59): warning C4129:  'B': unrecognized character escape sequence
+X:\dev\tetrissfml\tetrissfml\src\tetrissfml.cpp(320,59): warning C4129:  'C': unrecognized character escape sequence
   tetrissfml.vcxproj -> X:\dev\tetrissfml\bin\Win32\Debug\tetrissfml.exe
